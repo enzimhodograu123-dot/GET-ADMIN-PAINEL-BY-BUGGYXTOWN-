@@ -1,0 +1,117 @@
+local UserInputService = game:GetService("UserInputService")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "AdminGui"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 450, 0, 300)
+MainFrame.Position = UDim2.new(0.5, -225, 0.5, -150)
+MainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(50, 50, 50)
+MainFrame.Active = true
+MainFrame.Parent = ScreenGui
+
+local TitleBar = Instance.new("Frame")
+TitleBar.Name = "TitleBar"
+TitleBar.Size = UDim2.new(1, 0, 0, 30)
+TitleBar.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TitleBar.BorderSizePixel = 1
+TitleBar.Parent = MainFrame
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Size = UDim2.new(1, -60, 1, 0)
+TitleLabel.Position = UDim2.new(0, 10, 0, 0)
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Text = "Tsunami of zombies get admin painel"
+TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.Font = Enum.Font.SourceSansBold
+TitleLabel.TextSize = 14
+TitleLabel.Parent = TitleBar
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 1, 0)
+CloseButton.Position = UDim2.new(1, -30, 0, 0)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Text = "X"
+CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseButton.TextSize = 18
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.Parent = TitleBar
+CloseButton.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+local AuthorLabel = Instance.new("TextLabel")
+AuthorLabel.Size = UDim2.new(1, 0, 0, 50)
+AuthorLabel.Position = UDim2.new(0, 0, 0, 50)
+AuthorLabel.BackgroundTransparency = 1
+AuthorLabel.Text = "get admin painel by BuggyXtown"
+AuthorLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+AuthorLabel.Font = Enum.Font.SourceSansBold
+AuthorLabel.TextSize = 20
+AuthorLabel.Parent = MainFrame
+
+local MainButton = Instance.new("TextButton")
+MainButton.Name = "GetAdminButton"
+MainButton.Size = UDim2.new(0, 300, 0, 80)
+MainButton.Position = UDim2.new(0.5, -150, 0.5, -20)
+MainButton.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MainButton.BorderSizePixel = 1
+MainButton.BorderColor3 = Color3.fromRGB(80, 80, 80)
+MainButton.Text = "GET ADMIN PAINEL"
+MainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+MainButton.Font = Enum.Font.SourceSansBold
+MainButton.TextSize = 24
+MainButton.Parent = MainFrame
+
+MainButton.MouseButton1Click:Connect(function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/enzimhodograu123-dot/Get-admin-painel/refs/heads/main/Tsunami%20de%20zombies"))()
+end)
+
+local BottomLabel = Instance.new("TextLabel")
+BottomLabel.Size = UDim2.new(1, 0, 0, 50)
+BottomLabel.Position = UDim2.new(0, 0, 1, -60)
+BottomLabel.BackgroundTransparency = 1
+BottomLabel.Text = "F TSUAMI OF ZOMBIES BY JAPA."
+BottomLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+BottomLabel.Font = Enum.Font.SourceSansBold
+BottomLabel.TextSize = 22
+BottomLabel.Parent = MainFrame
+
+local dragging, dragInput, dragStart, startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+MainFrame.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = MainFrame.Position
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+MainFrame.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
+
